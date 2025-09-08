@@ -1,4 +1,4 @@
-name: Deploy Supabase Migrations
+name: Deploy Supabase Migrations and Functions
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ jobs:
 
       - name: Link al proyecto Supabase
         run: |
-          npx supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }}
+          npx supabase link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --debug
 
       - name: Aplicar migraciones al proyecto Supabase
         run: |
