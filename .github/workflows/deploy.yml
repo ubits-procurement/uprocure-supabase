@@ -26,7 +26,7 @@ jobs:
 
       - name: Aplicar migraciones al proyecto Supabase
         run: |
-          npx supabase db push --linked
+          npx supabase db push --linked --debug
 
       - name: Deploy de funciones
         run: |
