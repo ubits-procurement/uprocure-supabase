@@ -22,11 +22,11 @@ jobs:
 
       - name: Link al proyecto Supabase
         run: |
-          npx supabase@2.40.2 link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --debug
+          npx supabase@2.40.2 link --project-ref ${{ secrets.SUPABASE_PROJECT_REF }} --password "${{ secrets.SUPABASE_DB_PASSWORD }}"
 
       - name: Aplicar migraciones al proyecto Supabase
         run: |
-          npx supabase@2.40.2 db push --linked --debug
+          npx supabase@2.40.2 db push --linked
 
       - name: Deploy de funciones
         run: |
