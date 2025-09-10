@@ -52,12 +52,12 @@ alter table public.users enable row level security;
 create policy "Usuarios pueden ver su propio perfil"
 on public.users
 for select
-using (auth.uid() = id);
+using (auth.uid() = id)
 
 create policy "Usuarios pueden actualizar su propio perfil"
 on public.users
 for update
-using (auth.uid() = id);
+using (auth.uid() = id)
 
 -- Admins pueden ver y actualizar cualquier perfil
 create policy "Admins pueden ver todos los perfiles"
