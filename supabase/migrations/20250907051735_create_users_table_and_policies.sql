@@ -35,6 +35,15 @@ create trigger on_auth_user_created
 after insert on auth.users
 for each row execute procedure public.handle_new_user();
 
+create or replace function is_admin(uid uuid)
+returns boolean
+language sql
+security definer
+set search_path = public
+as $$
+  select role = 'admin' from public.users where id = uid;
+$$;
+
 -- Activar Row Level Security en la tabla users
 alter table public.users enable row level security;
 
@@ -54,19 +63,10 @@ using (auth.uid() = id);
 create policy "Admins pueden ver todos los perfiles"
 on public.users
 for select
-using (
-  exists (
-    select 1 from public.users u
-    where u.id = auth.uid() and u.role = 'admin'
-  )
-);
+using (is_admin(auth.uid()))
+
 
 create policy "Admins pueden actualizar todos los perfiles"
 on public.users
 for update
-using (
-  exists (
-    select 1 from public.users u
-    where u.id = auth.uid() and u.role = 'admin'
-  )
-);
+using (is_admin(auth.uid()))
