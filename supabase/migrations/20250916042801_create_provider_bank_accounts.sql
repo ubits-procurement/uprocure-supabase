@@ -3,7 +3,7 @@ CREATE TABLE public.provider_bank_accounts (
     provider_id STRING NOT NULL REFERENCES providers(nit) ON DELETE CASCADE,
     data JSONB NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
-    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
+    updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
 );
 
 COMMENT ON TABLE public.provider_bank_accounts IS 'Tabla que contiene las cuentas bancarias de los proveedores';
