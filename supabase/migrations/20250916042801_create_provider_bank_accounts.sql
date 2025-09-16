@@ -1,6 +1,6 @@
 CREATE TABLE public.provider_bank_accounts (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    provider_id STRING NOT NULL REFERENCES providers(nit) ON DELETE CASCADE,
+    provider_id TEXT NOT NULL REFERENCES providers(nit) ON DELETE CASCADE,
     data JSONB NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
