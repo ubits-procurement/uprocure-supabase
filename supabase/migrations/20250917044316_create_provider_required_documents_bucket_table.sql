@@ -1,3 +1,8 @@
+insert into storage.buckets
+  (id, name, public)
+values
+  ('provider_required_documents', 'provider_required_documents', false);
+
 create policy "Solo acceder a archivos del bucket 'provider_required_documents' si pertenecen a tu proveedor"
 on storage.objects
 for select using (
