@@ -18,7 +18,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.proveedor_id = provider_required_documents.provider_id
+    and public.users.provider = provider_required_documents.provider_id
   )
 );
 
@@ -30,7 +30,7 @@ with check (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.proveedor_id = provider_required_documents.provider_id
+    and public.users.provider = provider_required_documents.provider_id
   )
 );
 
@@ -42,7 +42,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.proveedor_id = provider_required_documents.provider_id
+    and public.users.provider = provider_required_documents.provider_id
   )
 );
 
