@@ -5,6 +5,8 @@ create table public.providers (
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
 );
 
+ALTER TABLE public.providers ADD CONSTRAINT providers_pkey PRIMARY KEY (nit);
+
 -- Agregar descripción a la tabla
 COMMENT ON TABLE public.providers IS 'Tabla que contiene los proveedores';
 
