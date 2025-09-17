@@ -28,8 +28,8 @@ security definer
 set search_path = public
 as $$
 begin
-  insert into public.users (id)
-  values (new.id);
+  insert into public.users (id, email)
+  values (new.id, new.email);
   return new;
 end;
 $$;
