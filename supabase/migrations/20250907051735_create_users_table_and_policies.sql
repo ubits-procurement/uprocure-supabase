@@ -4,7 +4,7 @@ create type user_role as enum ('admin', 'provider_user');
 -- Crear tabla users enlazada a auth.users y providers
 create table public.users (
   id uuid references auth.users on delete cascade not null primary key,
-  email text references auth.users(email) on delete cascade,
+  email text,
   role user_role not null default 'provider_user',
   provider text references public.providers(nit) on delete set null,
   created_at timestamp with time zone default timezone('utc'::text, now()) not null
@@ -15,7 +15,7 @@ COMMENT ON TABLE public.users IS 'Tabla que contiene los perfiles de usuario enl
 
 -- Agregar descripción a columnas (opcional pero recomendado)
 COMMENT ON COLUMN public.users.id IS 'ID del usuario, igual que auth.users.id';
-COMMENT ON COLUMN public.users.email IS 'Correo electrónico del usuario, igual que auth.users.email';
+COMMENT ON COLUMN public.users.email IS 'Correo electrónico del usuario, debe ser igual que auth.users.email';
 COMMENT ON COLUMN public.users.role IS 'Rol del usuario: admin o provider_user';
 COMMENT ON COLUMN public.users.provider IS 'Proveedor asociado al usuario';
 COMMENT ON COLUMN public.users.created_at IS 'Fecha de creación del registro';
