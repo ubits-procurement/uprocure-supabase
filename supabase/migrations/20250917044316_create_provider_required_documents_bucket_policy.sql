@@ -6,7 +6,6 @@ for select using (
     select 1
     from provider_required_documents 
     join users on users.id = auth.uid()
-    where provider_required_documents.document_type = storage.objects.name
-    and provider_required_documents.provider_id = users.provider
+    where provider_required_documents.provider_id = users.provider
   )
 );
