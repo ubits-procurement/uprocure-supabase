@@ -20,4 +20,4 @@ alter table public.providers enable row level security;
 create policy "Usuarios autenticados pueden ver providers"
 on public.providers
 for select
-using (auth.role() = 'authenticated');
+using ((select auth.role()) = 'authenticated');

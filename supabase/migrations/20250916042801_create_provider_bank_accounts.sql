@@ -12,3 +12,67 @@ COMMENT ON COLUMN public.provider_bank_accounts.provider_id IS 'NIT del proveedo
 COMMENT ON COLUMN public.provider_bank_accounts.data IS 'Datos de la cuenta bancaria en formato JSONB';
 COMMENT ON COLUMN public.provider_bank_accounts.created_at IS 'Fecha de creación del registro';
 COMMENT ON COLUMN public.provider_bank_accounts.updated_at IS 'Fecha de la última actualización del registro';
+
+-- Habilitar RLS
+ALTER TABLE public.provider_bank_accounts ENABLE ROW LEVEL SECURITY;
+
+-- Política: usuarios de un proveedor pueden insertar registros de su proveedor
+CREATE POLICY "Usuarios pueden insertar cuentas de su proveedor"
+ON public.provider_bank_accounts
+FOR INSERT
+WITH CHECK (
+  provider_id = (
+    select u.provider
+    from public.users u
+    where u.id = (select auth.uid())
+  )
+  OR
+  exists (
+    select 1 from public.users u
+    where u.id = (select auth.uid()) and u.role = 'admin'
+  )
+);
+
+-- Política: usuarios de un proveedor pueden actualizar registros de su proveedor
+CREATE POLICY "Usuarios pueden actualizar cuentas de su proveedor"
+ON public.provider_bank_accounts
+FOR UPDATE
+USING (
+  provider_id = (
+    select u.provider
+    from public.users u
+    where u.id = (select auth.uid())
+  )
+  OR
+  exists (
+    select 1 from public.users u
+    where u.id = (select auth.uid()) and u.role = 'admin'
+  )
+);
+
+-- Política: usuarios de un proveedor pueden eliminar registros de su proveedor
+CREATE POLICY "Usuarios pueden eliminar cuentas de su proveedor"
+ON public.provider_bank_accounts
+FOR DELETE
+USING (
+  provider_id = (
+    select u.provider
+    from public.users u
+    where u.id = (select auth.uid())
+  )
+  OR
+  exists (
+    select 1 from public.users u
+    where u.id = (select auth.uid()) and u.role = 'admin'
+  )
+);
+
+-- Comentarios en políticas
+COMMENT ON POLICY "Usuarios pueden insertar cuentas de su proveedor" 
+ON public.provider_bank_accounts IS 'Permite a usuarios crear cuentas bancarias de su propio proveedor o a admins crear cualquier registro';
+
+COMMENT ON POLICY "Usuarios pueden actualizar cuentas de su proveedor" 
+ON public.provider_bank_accounts IS 'Permite a usuarios actualizar cuentas bancarias de su propio proveedor o a admins actualizar cualquier registro';
+
+COMMENT ON POLICY "Usuarios pueden eliminar cuentas de su proveedor" 
+ON public.provider_bank_accounts IS 'Permite a usuarios eliminar cuentas bancarias de su propio proveedor o a admins eliminar cualquier registro';
