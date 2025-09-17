@@ -16,9 +16,9 @@ for select
 using (
   exists (
     select 1
-    from usuarios
-    where usuarios.user_id = auth.uid()
-    and usuarios.proveedor_id = provider_required_documents.provider_id
+    from public.users
+    where public.users.user_id = auth.uid()
+    and public.users.proveedor_id = provider_required_documents.provider_id
   )
 );
 
@@ -28,9 +28,9 @@ for insert
 with check (
   exists (
     select 1
-    from usuarios
-    where usuarios.user_id = auth.uid()
-    and usuarios.proveedor_id = provider_required_documents.provider_id
+    from public.users
+    where public.users.user_id = auth.uid()
+    and public.users.proveedor_id = provider_required_documents.provider_id
   )
 );
 
@@ -40,9 +40,9 @@ for delete
 using (
   exists (
     select 1
-    from usuarios
-    where usuarios.user_id = auth.uid()
-    and usuarios.proveedor_id = provider_required_documents.provider_id
+    from public.users
+    where public.users.user_id = auth.uid()
+    and public.users.proveedor_id = provider_required_documents.provider_id
   )
 );
 
