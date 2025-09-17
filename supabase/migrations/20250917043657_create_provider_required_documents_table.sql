@@ -4,7 +4,7 @@ create type document_type as enum ('legal_agent', 'articles_of_incorporation', '
 create table provider_required_documents (
     id uuid primary key default gen_random_uuid(),
     document_type document_type not null,
-    provider_id uuid references public.providers(id),
+    provider_id uuid references public.providers(nit),
     created_at timestamp with time zone default now()
 );
 
