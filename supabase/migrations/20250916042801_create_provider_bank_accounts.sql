@@ -16,6 +16,20 @@ COMMENT ON COLUMN public.provider_bank_accounts.updated_at IS 'Fecha de la últi
 -- Habilitar RLS
 ALTER TABLE public.provider_bank_accounts ENABLE ROW LEVEL SECURITY;
 
+-- Política: usuarios de un proveedor pueden ver registros de su proveedor
+CREATE POLICY "Usuarios pueden ver cuentas de su proveedor"
+ON public.provider_bank_accounts
+FOR SELECT
+USING (
+  provider_id = (
+    select u.provider
+    from public.users u
+    where u.id = (select auth.uid())
+  )
+  OR
+  is_admin(auth.uid())
+);
+
 -- Política: usuarios de un proveedor pueden insertar registros de su proveedor
 CREATE POLICY "Usuarios pueden insertar cuentas de su proveedor"
 ON public.provider_bank_accounts
@@ -27,10 +41,7 @@ WITH CHECK (
     where u.id = (select auth.uid())
   )
   OR
-  exists (
-    select 1 from public.users u
-    where u.id = (select auth.uid()) and u.role = 'admin'
-  )
+  is_admin(auth.uid())
 );
 
 -- Política: usuarios de un proveedor pueden actualizar registros de su proveedor
@@ -44,10 +55,7 @@ USING (
     where u.id = (select auth.uid())
   )
   OR
-  exists (
-    select 1 from public.users u
-    where u.id = (select auth.uid()) and u.role = 'admin'
-  )
+  is_admin(auth.uid())
 );
 
 -- Política: usuarios de un proveedor pueden eliminar registros de su proveedor
@@ -61,10 +69,7 @@ USING (
     where u.id = (select auth.uid())
   )
   OR
-  exists (
-    select 1 from public.users u
-    where u.id = (select auth.uid()) and u.role = 'admin'
-  )
+  is_admin(auth.uid())
 );
 
 -- Comentarios en políticas
