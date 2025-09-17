@@ -17,7 +17,7 @@ using (
   exists (
     select 1
     from public.users
-    where public.users.user_id = auth.uid()
+    where public.users.id = auth.uid()
     and public.users.proveedor_id = provider_required_documents.provider_id
   )
 );
@@ -29,7 +29,7 @@ with check (
   exists (
     select 1
     from public.users
-    where public.users.user_id = auth.uid()
+    where public.users.id = auth.uid()
     and public.users.proveedor_id = provider_required_documents.provider_id
   )
 );
@@ -41,7 +41,7 @@ using (
   exists (
     select 1
     from public.users
-    where public.users.user_id = auth.uid()
+    where public.users.id = auth.uid()
     and public.users.proveedor_id = provider_required_documents.provider_id
   )
 );
