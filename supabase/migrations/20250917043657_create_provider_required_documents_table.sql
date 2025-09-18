@@ -1,9 +1,12 @@
 create type document_type as enum ('legal_agent', 'articles_of_incorporation', 'fiscal_certificate', 'bank_certificate');
+create type validation_status as enum ('pending', 'approved', 'rejected');
 
 -- Tabla de documentos
 create table provider_required_documents (
     id uuid primary key default gen_random_uuid(),
     document_type document_type not null,
+    file_name text not null,
+    validation_status validation_status default 'pending',
     provider_id text references public.providers(nit),
     created_at timestamp with time zone default now()
 );
