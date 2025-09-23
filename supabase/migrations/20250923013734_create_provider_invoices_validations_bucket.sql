@@ -15,15 +15,15 @@ for select using (
   )
 );
 
-create policy "Solo insertar archivos en el bucket 'provider_invoices_validations' si pertenecen a tu proveedor"
+create policy "Solo insertar archivos en el bucket 'provider_invoices_validations' si hay un proveedor asociado"
 on storage.objects
 for insert with check (
   bucket_id = 'provider_invoices_validations' AND
   exists (
     select 1
-    from provider_invoices 
-    join users on users.id = auth.uid()
-    where provider_invoices.provider_id = users.provider
+    from users
+    where users.id = auth.uid()
+    and users.provider IS NOT NULL
   )
 );
 
