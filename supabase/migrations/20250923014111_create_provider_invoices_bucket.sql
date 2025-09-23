@@ -27,7 +27,7 @@ for insert with check (
   )
 );
 
-create policy "Usuarios admin pueden acceder a todos los archivos del bucket 'provider_invoices'"
+create policy "Admin puede acceder a todos los archivos de provider_invoices"
 on storage.objects
 for select using (
   bucket_id = 'provider_invoices' AND
