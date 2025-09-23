@@ -11,7 +11,7 @@ for select using (
     select 1
     from provider_invoices_validations 
     join users on users.id = auth.uid()
-    where provider_invoices_validations.provider_id = users.provider
+    where provider_invoices.provider_id = users.provider
   )
 );
 
@@ -23,7 +23,7 @@ for insert with check (
     select 1
     from provider_invoices_validations 
     join users on users.id = auth.uid()
-    where provider_invoices_validations.provider_id = users.provider
+    where provider_invoices.provider_id = users.provider
   )
 );
 
