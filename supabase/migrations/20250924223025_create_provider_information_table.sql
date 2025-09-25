@@ -52,7 +52,7 @@ using (
     where public.users.id = auth.uid()
     and public.users.provider = provider_information.provider_id
   )
-)
+);
 
 create policy "admin puede hacer cualquier acción"
 on provider_information
