@@ -1,6 +1,6 @@
 create table if not exists provider_information (
   id uuid primary key default gen_random_uuid(),
-  provider_id text references public.providers(nit) unique not null,
+  provider_id integer references public.providers(id) unique not null,
   company_name text not null,
   fiscal_id text,
   email text not null,
@@ -26,7 +26,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_information.provider_id
+    and public.users.provider_id = provider_information.provider_id
   )
 );
 
@@ -38,7 +38,7 @@ with check (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider is not null
+    and public.users.provider_id is not null
   )
 );
 
@@ -50,7 +50,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_information.provider_id
+    and public.users.provider_id = provider_information.provider_id
   )
 );
 

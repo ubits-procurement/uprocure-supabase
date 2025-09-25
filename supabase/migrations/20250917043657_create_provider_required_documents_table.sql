@@ -7,7 +7,7 @@ create table provider_required_documents (
     document_type document_type not null,
     file_name text not null,
     validation_status validation_status default 'pending',
-    provider_id text references public.providers(nit),
+    provider_id integer references public.providers(id),
     created_at timestamp with time zone default now()
 );
 
@@ -21,7 +21,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_required_documents.provider_id
+    and public.users.provider_id = provider_required_documents.provider_id
   )
 );
 
@@ -33,7 +33,7 @@ with check (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_required_documents.provider_id
+    and public.users.provider_id = provider_required_documents.provider_id
   )
 );
 
@@ -45,7 +45,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_required_documents.provider_id
+    and public.users.provider_id = provider_required_documents.provider_id
   )
 );
 

@@ -11,7 +11,7 @@ for select using (
     select 1
     from provider_invoices 
     join users on users.id = auth.uid()
-    where provider_invoices.provider_id = users.provider
+    where provider_invoices.provider_id = users.provider_id
   )
 );
 
@@ -23,7 +23,7 @@ for insert with check (
     select 1
     from users
     where users.id = auth.uid()
-    and users.provider IS NOT NULL
+    and users.provider_id IS NOT NULL
   )
 );
 

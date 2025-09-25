@@ -1,6 +1,6 @@
 CREATE TABLE public.provider_bank_accounts (
     id BIGINT GENERATED ALWAYS AS IDENTITY PRIMARY KEY,
-    provider_id TEXT NOT NULL REFERENCES providers(nit) ON DELETE CASCADE,
+    provider_id integer NOT NULL REFERENCES providers(id) ON DELETE CASCADE,
     data JSONB NOT NULL,
     created_at TIMESTAMPTZ NOT NULL DEFAULT NOW(),
     updated_at TIMESTAMPTZ NOT NULL DEFAULT NOW()
@@ -8,7 +8,7 @@ CREATE TABLE public.provider_bank_accounts (
 
 COMMENT ON TABLE public.provider_bank_accounts IS 'Tabla que contiene las cuentas bancarias de los proveedores';
 COMMENT ON COLUMN public.provider_bank_accounts.id IS 'Identificador único de la cuenta bancaria';
-COMMENT ON COLUMN public.provider_bank_accounts.provider_id IS 'NIT del proveedor asociado a la cuenta bancaria';
+COMMENT ON COLUMN public.provider_bank_accounts.provider_id IS 'ID del proveedor asociado a la cuenta bancaria';
 COMMENT ON COLUMN public.provider_bank_accounts.data IS 'Datos de la cuenta bancaria en formato JSONB';
 COMMENT ON COLUMN public.provider_bank_accounts.created_at IS 'Fecha de creación del registro';
 COMMENT ON COLUMN public.provider_bank_accounts.updated_at IS 'Fecha de la última actualización del registro';
@@ -22,7 +22,7 @@ ON public.provider_bank_accounts
 FOR SELECT
 USING (
   provider_id = (
-    select u.provider
+    select u.provider_id
     from public.users u
     where u.id = (select auth.uid())
   )
@@ -36,7 +36,7 @@ ON public.provider_bank_accounts
 FOR INSERT
 WITH CHECK (
   provider_id = (
-    select u.provider
+    select u.provider_id
     from public.users u
     where u.id = (select auth.uid())
   )
@@ -50,7 +50,7 @@ ON public.provider_bank_accounts
 FOR UPDATE
 USING (
   provider_id = (
-    select u.provider
+    select u.provider_id
     from public.users u
     where u.id = (select auth.uid())
   )
@@ -64,7 +64,7 @@ ON public.provider_bank_accounts
 FOR DELETE
 USING (
   provider_id = (
-    select u.provider
+    select u.provider_id
     from public.users u
     where u.id = (select auth.uid())
   )

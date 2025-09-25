@@ -1,7 +1,7 @@
 -- Tabla de facturas
 create table provider_invoices (
     id uuid primary key default gen_random_uuid(),
-    provider_id text references public.providers(nit),
+    provider_id integer references public.providers(id),
     invoice_file_name text not null,
     invoice_validation_file_name text not null,
     validation_status validation_status default 'pending',
@@ -22,7 +22,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_invoices.provider_id
+    and public.users.provider_id = provider_invoices.provider_id
   )
 );
 
@@ -34,7 +34,7 @@ with check (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_invoices.provider_id
+    and public.users.provider_id = provider_invoices.provider_id
   )
 );
 
@@ -46,7 +46,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_invoices.provider_id
+    and public.users.provider_id = provider_invoices.provider_id
   )
 );
 
