@@ -26,7 +26,7 @@ using (
     select 1
     from public.users
     where public.users.id = auth.uid()
-    and public.users.provider = provider_information.id
+    and public.users.provider = provider_information.provider_id
   )
 );
 
