@@ -30,9 +30,9 @@ using (
   )
 );
 
-create policy "provider_user puede insertar o actualizar"
+create policy "provider_user puede insertar información de su proveedor"
 on provider_information
-for insert, update
+for insert
 with check (
   exists (
     select 1
@@ -41,6 +41,18 @@ with check (
     and public.users.provider is not null
   )
 );
+
+create policy "provider_user puede actualizar información de su proveedor"
+on provider_information
+for update
+using (
+  exists (
+    select 1
+    from public.users
+    where public.users.id = auth.uid()
+    and public.users.provider = provider_information.provider_id
+  )
+)
 
 create policy "admin puede hacer cualquier acción"
 on provider_information
