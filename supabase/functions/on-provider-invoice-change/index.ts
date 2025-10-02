@@ -4,6 +4,8 @@ import { ValidationStatus } from '../common/domain/enums/validation-status.enum.
 Deno.serve(async (req) => {
   const { record: updatedRecord } = await req.json();
 
+  console.info("Received event:", { updatedRecord });
+
   if (updatedRecord?.validation_status == ValidationStatus.Approved) {
     console.info("Validation status changed to Approved:", {
       to: updatedRecord?.validation_status,
