@@ -1,2 +1,2 @@
 ALTER TABLE provider_invoices
-ADD COLUMN invoice_number TEXT UNIQUE;
+ADD COLUMN invoice_number TEXT UNIQUE NOT NULL;
