@@ -2,7 +2,7 @@ export class KonvexApiClient {
   private readonly baseUrl: string;
   private readonly defaultHeaders: Record<string, string>;
 
-  constructor(baseUrl: string = 'https://api.getkonvex.com/core/api/') {
+  constructor(baseUrl: string = 'https://api.getkonvex.com/core/api') {
     this.baseUrl = baseUrl;
     this.defaultHeaders = {
       'Content-Type': 'application/json',
