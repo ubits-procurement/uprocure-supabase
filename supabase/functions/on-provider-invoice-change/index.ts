@@ -1,16 +1,15 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-
-console.log("Hello from Functions!");
+import { ValidationStatus } from '../common/domain/enums/validation-status.enum.ts';
 
 Deno.serve(async (req) => {
-  const { record: updatedRecord, old_record: oldRecord } = await req.json();
+  const { record: updatedRecord } = await req.json();
 
-  if (updatedRecord?.validation_status !== oldRecord?.validation_status) {
-    console.info("Validation status changed:", {
-      from: oldRecord?.validation_status,
+  if (updatedRecord?.validation_status == ValidationStatus.Approved) {
+    console.info("Validation status changed to Approved:", {
       to: updatedRecord?.validation_status,
+      updatedRecord,
     });
-    return new Response("Validation status changed", { status: 200 });
+    return new Response("Validation status changed to Approved", { status: 200 });
   }
 
   return new Response(
