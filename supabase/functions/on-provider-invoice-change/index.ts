@@ -19,7 +19,7 @@ Deno.serve(async (req) => {
       updatedRecord,
     });
 
-    const purchaseOrder = await useCase.execute(updatedRecord?.purchase_order_id);
+    const purchaseOrder = await useCase.execute(updatedRecord?.purchase_order);
 
     console.info("Purchase order retrieved:", { purchaseOrder });
 

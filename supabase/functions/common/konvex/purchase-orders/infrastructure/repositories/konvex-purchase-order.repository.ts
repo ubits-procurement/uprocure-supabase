@@ -12,6 +12,7 @@ export class KonvexPurchaseOrderRepository implements PurchaseOrderRepository {
       );
       return response;
     } catch (error: any) {
+      console.info(`KonvexPurchaseOrderRepository.getById: Purchase Order with id [${id}] not found`, error);
       if (error.cause?.status === 404) {
         return null;
       }
