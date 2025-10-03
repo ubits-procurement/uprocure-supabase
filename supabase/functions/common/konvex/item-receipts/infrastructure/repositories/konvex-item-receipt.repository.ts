@@ -8,7 +8,7 @@ export class KonvexItemReceiptRepository implements ItemReceiptRepository {
   async create(itemReceipt: ItemReceiptRequest): Promise<ItemReceiptResponse> {
     try {
       const response = await this.apiClient.makeRequest<ItemReceiptResponse>(
-        '/purchases/items-receipt',
+        '/items/receipt',
         {
           method: 'POST',
           body: JSON.stringify(itemReceipt)
