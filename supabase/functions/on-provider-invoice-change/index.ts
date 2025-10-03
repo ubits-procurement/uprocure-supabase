@@ -1,33 +1,41 @@
 import "jsr:@supabase/functions-js/edge-runtime.d.ts";
-import { ValidationStatus } from '../shared/domain/enums/validation-status.enum.ts';
-import { GetPurchaseOrderDetailedByIdUseCase } from '../common/konvex/purchase-orders/application/use-cases/get-purchase-order-detailed-by-id.use-case.ts';
-import { KonvexPurchaseOrderRepository } from '../common/konvex/purchase-orders/infrastructure/repositories/konvex-purchase-order.repository.ts';
-import { KonvexApiClient } from '../common/konvex/purchase-orders/infrastructure/konvex/konvex-api-client.ts';
+import { ValidationStatus } from "../shared/domain/enums/validation-status.enum.ts";
+import { CreateReceptionAndInvoiceUseCase } from "./application/use-cases/create-reception-and-invoice.use-case.ts";
 
-const konvexApiClient = new KonvexApiClient();
-const purchaseOrderRepository = new KonvexPurchaseOrderRepository(konvexApiClient);
-const useCase = new GetPurchaseOrderDetailedByIdUseCase(purchaseOrderRepository);
+const createReceptionAndInvoiceUseCase = new CreateReceptionAndInvoiceUseCase();
 
 Deno.serve(async (req) => {
   const { record: updatedRecord } = await req.json();
 
+  if(!updatedRecord){
+    console.warn("Update event received without record")
+    return new Response(JSON.stringify(null), {
+      headers: { "Content-Type": "application/json" },
+      status: 400,
+    });
+  }
+
   console.info("Received event:", { updatedRecord });
 
-  if (updatedRecord?.validation_status == ValidationStatus.Approved) {
+  if (updatedRecord.validation_status == ValidationStatus.Approved) {
     console.info("Validation status changed to Approved:", {
-      to: updatedRecord?.validation_status,
+      to: updatedRecord.validation_status,
       updatedRecord,
     });
 
-    const purchaseOrder = await useCase.execute(updatedRecord?.purchase_order);
+    await createReceptionAndInvoiceUseCase.execute(
+      updatedRecord.invoice_number,
+      updatedRecord.purchase_order,
+      updatedRecord.provider_id,
+      updatedRecord.invoice_lines
+    );
 
-    console.info("Purchase order retrieved:", { purchaseOrder });
-
-    return new Response("Validation status changed to Approved", { status: 200 });
+    return new Response("Validation status changed to Approved", {
+      status: 200,
+    });
   }
 
-  return new Response(
-    JSON.stringify(null),
-    { headers: { "Content-Type": "application/json" } },
-  );
+  return new Response(JSON.stringify(null), {
+    headers: { "Content-Type": "application/json" },
+  });
 });

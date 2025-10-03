@@ -1,5 +1,5 @@
 import { PurchaseOrderRepository } from '../../domain/repositories/purchase-order.repository.ts';
-import { KonvexApiClient } from '../konvex/konvex-api-client.ts';
+import { KonvexApiClient } from '../../../shared/clients/konvex-api-client.ts';
 import { PurchaseOrderDetailed } from '../../domain/entities/purchase-order-detailed.entity.ts';
 
 export class KonvexPurchaseOrderRepository implements PurchaseOrderRepository {
