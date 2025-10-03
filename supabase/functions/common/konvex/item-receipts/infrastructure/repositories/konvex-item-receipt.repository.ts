@@ -7,6 +7,7 @@ export class KonvexItemReceiptRepository implements ItemReceiptRepository {
 
   async create(itemReceipt: ItemReceiptRequest): Promise<ItemReceiptResponse> {
     try {
+      console.info("KonvexItemReceiptRepository::create INIT", JSON.stringify(itemReceipt));
       const response = await this.apiClient.makeRequest<ItemReceiptResponse>(
         '/items/receipt',
         {
@@ -14,6 +15,7 @@ export class KonvexItemReceiptRepository implements ItemReceiptRepository {
           body: JSON.stringify(itemReceipt)
         }
       );
+      console.info("KonvexItemReceiptRepository::create END", JSON.stringify(response));
       return response;
     } catch (error: any) {
       console.error('Error creating item receipt:', error);
