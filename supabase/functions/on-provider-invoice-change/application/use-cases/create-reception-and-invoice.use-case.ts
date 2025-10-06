@@ -42,6 +42,8 @@ export class CreateReceptionAndInvoiceUseCase {
       return;
     }
 
+    const notReceivedLines = purchaseOrder.data.item.items.filter(item => item.quantity != item.quantityBilled);
+
     const itemReceipt = await this.createItemReceiptUseCase.execute({
       createdFrom: purchaseOrder.data.id,
       subsidiary: purchaseOrder.data.subsidiary.id,
@@ -52,7 +54,7 @@ export class CreateReceptionAndInvoiceUseCase {
       },
       exchangeRate: 1,
       item: {
-        items: purchaseOrder.data.item.items.map((item) => ({
+        items: notReceivedLines.map((item) => ({
           line: item.line,
           orderLine: item.line,
           quantity: item.quantity,

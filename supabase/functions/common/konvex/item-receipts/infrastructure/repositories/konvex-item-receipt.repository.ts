@@ -18,7 +18,7 @@ export class KonvexItemReceiptRepository implements ItemReceiptRepository {
       console.info("KonvexItemReceiptRepository::create END", JSON.stringify(response));
       return response;
     } catch (error: any) {
-      console.error('Error creating item receipt:', error);
+      console.error('KonvexItemReceiptRepository::create ERROR', error);
       throw new Error(`Failed to create item receipt: ${error.message}`);
     }
   }
