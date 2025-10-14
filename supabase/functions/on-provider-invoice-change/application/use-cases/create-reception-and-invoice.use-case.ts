@@ -57,10 +57,11 @@ export class CreateReceptionAndInvoiceUseCase {
         items: notReceivedLines.map((item) => ({
           line: item.line,
           orderLine: item.line,
-          quantity: item.quantity,
           itemReceive: invoiceLines.includes(item.line),
           itemSubtype: 'Purchase',
-          itemType: 'Service'
+          itemType: 'Service',
+          // Solo si es una linea facturada, se envia la propiedad quantity
+          ...(invoiceLines.includes(item.line) ? { quantity: item.quantity } : {})
         })),
       },
     });
