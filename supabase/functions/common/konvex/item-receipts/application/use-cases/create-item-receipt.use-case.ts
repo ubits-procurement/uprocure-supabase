@@ -4,7 +4,7 @@ import { ItemReceiptRequest, ItemReceiptResponse } from "../../domain/entities/i
 export class CreateItemReceiptUseCase {
   constructor(private readonly itemReceiptRepository: ItemReceiptRepository) {}
 
-  async execute(itemReceipt: ItemReceiptRequest): Promise<ItemReceiptResponse> {
+  execute(itemReceipt: ItemReceiptRequest): Promise<ItemReceiptResponse> {
     console.info("CreateItemReceiptUseCase::execute INIT", JSON.stringify(itemReceipt));
     return this.itemReceiptRepository.create(itemReceipt);
   }

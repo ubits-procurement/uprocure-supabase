@@ -7,4 +7,8 @@ export interface ItemReceiptRepository {
    * @returns A promise that resolves to the created item receipt response
    */
   create(itemReceipt: ItemReceiptRequest): Promise<ItemReceiptResponse>;
+
+  getWithPurchaseOrder(purchaseOrderId: string): Promise<any>;
+
+  getByTransactionId(transactionId: string): Promise<any>;
 }

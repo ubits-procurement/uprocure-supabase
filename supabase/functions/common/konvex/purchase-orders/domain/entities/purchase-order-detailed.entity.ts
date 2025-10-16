@@ -31,6 +31,7 @@ export interface Data {
   custbody_ad_gl_customform: string;
   custbody_ad_gl_debit_memo_saved: boolean;
   custbody_ad_mx_import_related_bill: CustbodyACExcepcion;
+  custbody_bea_credit_cards_pay?: CsegCoThirdparty;
   custbody_co_dif_montos: boolean;
   custbody_co_isinternational: boolean;
   custbody_co_issupportdoc: boolean;
@@ -93,6 +94,12 @@ export interface Data {
   tranDate: Date;
   tranId: string;
   transactionNumber: string;
+}
+
+export interface CsegCoThirdparty {
+	links: Link[];
+	id: string;
+	refName: string;
 }
 
 export interface AccountingBookDetail {
