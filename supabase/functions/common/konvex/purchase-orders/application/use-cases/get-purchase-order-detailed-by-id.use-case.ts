@@ -2,10 +2,11 @@ import { PurchaseOrderRepository } from "../../domain/repositories/purchase-orde
 import { PurchaseOrderDetailed } from "../../domain/entities/purchase-order-detailed.entity.ts";
 
 export class GetPurchaseOrderDetailedByIdUseCase {
-    constructor(private readonly purchaseOrderRepository: PurchaseOrderRepository) {}
+    constructor(
+        private readonly purchaseOrderRepository: PurchaseOrderRepository,
+    ) {}
 
     execute(id: string): Promise<PurchaseOrderDetailed | null> {
         return this.purchaseOrderRepository.getById(id);
     }
 }
-    

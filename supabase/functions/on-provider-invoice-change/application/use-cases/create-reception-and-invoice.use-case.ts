@@ -71,10 +71,6 @@ export class CreateReceptionAndInvoiceUseCase {
       return;
     }
 
-    if (purchaseOrder.data.custbody_bea_credit_cards_pay?.id) {
-      //Validación Pipe
-    }
-
     const notReceivedLines = purchaseOrder.data.item.items.filter((item) =>
       item.quantity != item.quantityBilled
     );
@@ -113,7 +109,7 @@ export class CreateReceptionAndInvoiceUseCase {
     const purchaseInvoice = await this.createPurchaseInvoiceUseCase.execute({
       orderId: purchaseOrder.data.id,
       tranId: invoiceNumber,
-      paymentMethod: purchaseOrder.data.custbody_bea_credit_cards_pay?.id || null,
+      paymentMethod: purchaseOrder.data.custbody_bea_credit_cards_pay?.id,
       subsidiaryCountry: "Colombia",
       providerId: providerId,
     });

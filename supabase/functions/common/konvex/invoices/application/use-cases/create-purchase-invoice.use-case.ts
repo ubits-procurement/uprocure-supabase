@@ -15,7 +15,7 @@ import { KonvexVendorRepository } from "../../../vendors/infrastructure/reposito
 interface ExecuteProps {
   orderId: string;
   tranId: string;
-  paymentMethod: string | null;
+  paymentMethod?: string;
   subsidiaryCountry: string;
   providerId: string;
 }
