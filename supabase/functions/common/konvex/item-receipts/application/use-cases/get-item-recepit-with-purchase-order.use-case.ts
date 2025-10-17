@@ -3,8 +3,10 @@ import { ItemReceiptRepository } from "../../domain/repositories/item-receipt.re
 export class GetItemReceiptWithPurchaseOrderUseCase {
   constructor(private readonly itemReceiptRepository: ItemReceiptRepository) {}
 
-  execute(purchaseOrderId: string): Promise<any> {
+  async execute(purchaseOrderId: string): Promise<any> {
     console.info("GetItemReceiptWithPurchaseOrderUseCase::execute INIT", purchaseOrderId);
-    return this.itemReceiptRepository.getWithPurchaseOrder(purchaseOrderId);
+    const itemReceipt = await this.itemReceiptRepository.getWithPurchaseOrder(purchaseOrderId);
+    console.info("GetItemReceiptWithPurchaseOrderUseCase::execute END", JSON.stringify(itemReceipt));
+    return itemReceipt;
   }
 }
