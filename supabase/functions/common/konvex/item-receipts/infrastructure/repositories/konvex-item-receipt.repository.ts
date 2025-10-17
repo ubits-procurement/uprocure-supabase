@@ -65,7 +65,7 @@ export class KonvexItemReceiptRepository implements ItemReceiptRepository {
         transactionId,
       );
       const response = await this.apiClient.makeRequest<ItemReceiptResponse>(
-        `/items/receipt/transaction/${transactionId}`,
+        `/items/receipt/${transactionId}`,
         {
           method: "GET",
         },
