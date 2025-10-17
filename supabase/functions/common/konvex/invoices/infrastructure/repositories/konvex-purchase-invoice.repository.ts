@@ -9,7 +9,7 @@ export class KonvexPurchaseInvoiceRepository implements PurchaseInvoiceRepositor
     try {
       console.info("KonvexPurchaseInvoiceRepository::create INIT", JSON.stringify(purchaseInvoice));
       const response = await this.apiClient.makeRequest<PurchaseInvoiceResponse>(
-        '/purchases/invoice',
+        '/purchases/invoices',
         {
           method: 'POST',
           body: JSON.stringify(purchaseInvoice)
