@@ -78,7 +78,7 @@ export class CreateReceptionAndInvoiceUseCase {
     const itemReceipt = await this.createItemReceiptUseCase.execute({
       createdFrom: purchaseOrder.data.id,
       subsidiary: purchaseOrder.data.subsidiary.id,
-      trandate: purchaseOrder.data.tranDate.toString(),
+      trandate: (new Date()).toISOString().split("T")[0],
       entity: providerId,
       customForm: {
         id: "39",
