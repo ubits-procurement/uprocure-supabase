@@ -83,8 +83,8 @@ export class CreatePurchaseInvoiceUseCase {
     const formattedDueDate = dueDate.toISOString().slice(0, 10);
 
     const itemsFormatted = {
-      ...receipt.item,
-      items: receipt.item.items.map(({ ...item }) => ({
+      ...receipt.data.item,
+      items: receipt.data.item.items.map(({ ...item }) => ({
         ...item,
         amount: item.itemFxAmount,
         rate: item.itemFxAmount,
