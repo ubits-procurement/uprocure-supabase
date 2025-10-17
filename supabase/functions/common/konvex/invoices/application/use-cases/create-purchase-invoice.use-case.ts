@@ -64,13 +64,9 @@ export class CreatePurchaseInvoiceUseCase {
     const itemReceiptWithPurchaseOrder = await this
       .getItemReceiptWithPurchaseOrderUseCase.execute(props.orderId);
 
-    console.log("Item receipt with purchase order:", JSON.stringify(itemReceiptWithPurchaseOrder));
-
     const { transaction } = itemReceiptWithPurchaseOrder.data.items[0];
 
-    const receipt = await this.getByTransactionIdUseCase.execute(
-      transaction.id,
-    );
+    const receipt = await this.getByTransactionIdUseCase.execute(transaction);
 
     const vendor = await this.getVendorByIdUseCase.execute(props.providerId);
 
