@@ -83,7 +83,6 @@ export class CreateReceptionAndInvoiceUseCase {
       customForm: {
         id: "39",
       },
-      exchangeRate: 1,
       item: {
         items: notReceivedLines.map((item) => ({
           line: item.line,
