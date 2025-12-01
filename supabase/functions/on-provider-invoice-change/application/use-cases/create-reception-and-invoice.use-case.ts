@@ -83,6 +83,7 @@ export class CreateReceptionAndInvoiceUseCase {
       customForm: {
         id: "39",
       },
+      department: purchaseOrder.data.department.id,
       item: {
         items: notReceivedLines.map((item) => ({
           line: item.line,

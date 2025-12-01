@@ -23,6 +23,7 @@ export interface ItemReceiptRequest {
   entity: string;
   exchangeRate?: number;
   item: ItemReceiptItems;
+  department?: string;
 }
 
 export interface ItemReceiptResponse {
