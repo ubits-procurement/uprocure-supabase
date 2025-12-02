@@ -18,6 +18,7 @@ interface ExecuteProps {
   paymentMethod?: string;
   subsidiaryCountry: string;
   providerId: string;
+  departmentId: string;
 }
 
 export class CreatePurchaseInvoiceUseCase {
@@ -111,6 +112,7 @@ export class CreatePurchaseInvoiceUseCase {
           id: vendor.data.cseg_co_thirdparty?.id,
           refName: vendor.data.cseg_co_thirdparty?.refName,
         },
+        department: props.departmentId,
       },
       item: itemsFormatted,
     };

@@ -83,7 +83,6 @@ export class CreateReceptionAndInvoiceUseCase {
       customForm: {
         id: "39",
       },
-      department: purchaseOrder.data.department.id,
       item: {
         items: notReceivedLines.map((item) => ({
           line: item.line,
@@ -112,6 +111,7 @@ export class CreateReceptionAndInvoiceUseCase {
       paymentMethod: purchaseOrder.data.custbody_bea_credit_cards_pay?.id,
       subsidiaryCountry: "Colombia",
       providerId: providerId,
+      departmentId: purchaseOrder.data.department.id,
     });
 
     console.info(

@@ -34,6 +34,7 @@ export interface PurchaseInvoiceRequest {
     custbody_bea_credit_cards_pay?: string;
     custbodycustbody_acs_pagotarjeta?: boolean;
     custbody_9997_is_for_ep_eft?: boolean;
+    department: string;
   };
   item: FormattedItems;
 }
