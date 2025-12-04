@@ -72,7 +72,7 @@ export class CreateReceptionAndInvoiceUseCase {
     }
 
     const notReceivedLines = purchaseOrder.data.item.items.filter((item) =>
-      item.quantity != item.quantityBilled
+      item.quantity != item.quantityReceived
     );
 
     const itemReceipt = await this.createItemReceiptUseCase.execute({
