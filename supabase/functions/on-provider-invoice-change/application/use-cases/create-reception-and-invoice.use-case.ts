@@ -9,8 +9,7 @@ import { GetProviderByIdUseCase } from "../../../common/providers/application/us
 import { SupabaseProviderRepository } from "../../../common/providers/infrastructure/repositories/supabase-provider.repository.ts";
 
 export class CreateReceptionAndInvoiceUseCase {
-  private getPurchaseOrderDetailedByIdUseCase:
-    GetPurchaseOrderDetailedByIdUseCase;
+  private getPurchaseOrderDetailedByIdUseCase: GetPurchaseOrderDetailedByIdUseCase;
 
   private createItemReceiptUseCase: CreateItemReceiptUseCase;
 
@@ -26,9 +25,7 @@ export class CreateReceptionAndInvoiceUseCase {
     );
 
     this.getPurchaseOrderDetailedByIdUseCase =
-      new GetPurchaseOrderDetailedByIdUseCase(
-        purchaseOrderRepository,
-      );
+      new GetPurchaseOrderDetailedByIdUseCase(purchaseOrderRepository);
 
     const itemReceiptRepository = new KonvexItemReceiptRepository(
       konvexApiClient,
@@ -61,8 +58,8 @@ export class CreateReceptionAndInvoiceUseCase {
       `CreateReceptionAndInvoiceUseCase::execute INIT invoiceNumber [${invoiceNumber}] purchaseOrderId [${purchaseOrderId}] providerId [${providerId}] invoiceLines [${invoiceLines}]`,
     );
 
-    const purchaseOrder = await this.getPurchaseOrderDetailedByIdUseCase
-      .execute(purchaseOrderId);
+    const purchaseOrder =
+      await this.getPurchaseOrderDetailedByIdUseCase.execute(purchaseOrderId);
 
     if (!purchaseOrder) {
       console.info(
@@ -71,14 +68,35 @@ export class CreateReceptionAndInvoiceUseCase {
       return;
     }
 
-    const notReceivedLines = purchaseOrder.data.item.items.filter((item) =>
-      item.quantity != item.quantityReceived
+    const notReceivedLines = purchaseOrder.data.item.items.filter(
+      (item) => item.quantity != item.quantityReceived,
     );
+
+
+    const receivedLines = purchaseOrder.data.item.items
+      .filter((item) => item.quantity == item.quantityReceived)
+      .filter((item) => invoiceLines.includes(item.line));
+
+    console.log("receivedLines", receivedLines);
+    // Crear facturación para lineas que ya fueron recibidas (quantity = quantityReceived)
+    if (receivedLines.length > 0) {
+      console.log("Creating purchase invoice for received lines");
+      await this.createPurchaseInvoiceUseCase.execute({
+        orderId: purchaseOrder.data.id,
+        tranId: invoiceNumber,
+        paymentMethod: purchaseOrder.data.custbody_bea_credit_cards_pay?.id,
+        subsidiaryCountry: "Colombia",
+        providerId: providerId,
+        departmentId: purchaseOrder.data.department.id,
+      });
+      console.log("Purchase invoice created for received lines");
+      return;
+    }
 
     const itemReceipt = await this.createItemReceiptUseCase.execute({
       createdFrom: purchaseOrder.data.id,
       subsidiary: purchaseOrder.data.subsidiary.id,
-      trandate: (new Date()).toISOString().split("T")[0],
+      trandate: new Date().toISOString().split("T")[0],
       entity: providerId,
       customForm: {
         id: "39",
@@ -99,9 +117,9 @@ export class CreateReceptionAndInvoiceUseCase {
     });
 
     console.info(
-      `CreateReceptionAndInvoiceUseCase::execute Item Receipt created ${
-        JSON.stringify(itemReceipt)
-      }`,
+      `CreateReceptionAndInvoiceUseCase::execute Item Receipt created ${JSON.stringify(
+        itemReceipt,
+      )}`,
     );
 
     // Create purchase invoice from the item receipt
@@ -115,9 +133,9 @@ export class CreateReceptionAndInvoiceUseCase {
     });
 
     console.info(
-      `CreateReceptionAndInvoiceUseCase::execute Purchase Invoice created ${
-        JSON.stringify(purchaseInvoice)
-      }`,
+      `CreateReceptionAndInvoiceUseCase::execute Purchase Invoice created ${JSON.stringify(
+        purchaseInvoice,
+      )}`,
     );
 
     console.info("CreateReceptionAndInvoiceUseCase::execute END");
